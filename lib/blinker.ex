@@ -1,5 +1,5 @@
 defmodule NetworkLed.Blinker do
-  user GenServer
+  use GenServer
 
   @moduledoc """
   Simple GenServer to control GPIO #18
@@ -28,7 +28,7 @@ defmodule NetworkLed.Blinker do
 
   def handle_cast(:disable, state) do
     Logger.info("Disabling LED")
-    Leds.set(green: faslse)
+    Leds.set(green: false)
 
     {:noreply, state}
   end
