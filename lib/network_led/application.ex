@@ -14,6 +14,7 @@ defmodule NetworkLed.Application do
         # Children for all targets
         # Starts a worker by calling: NetworkLed.Worker.start_link(arg)
         # {NetworkLed.Worker, arg},
+        {NetworkLed.Blinker, name: NetworkLed.Blinker}
       ] ++ children(target())
 
     Supervisor.start_link(children, opts)
