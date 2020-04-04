@@ -49,7 +49,7 @@ defmodule NetworkLed.MixProject do
       {:nerves_pack, "~> 0.2", targets: @all_targets},
 
       # Nerves LEDs
-
+      {:nerves_leds, "~> 0.8", targets: @all_targets}
 
       # Dependencies for specific targets
       {:nerves_system_rpi4, "~> 1.11", runtime: false, targets: :rpi4},
