@@ -12,37 +12,34 @@ defmodule NetworkLed.Blinker do
     GenServer.start_link(__MODULE__, state, name: __MODULE__)
   end
 
-  def init(_state) do
-    led_on()
+  def init(state) do
+    led_light(:on)
     state = :off
-    Logger.info("In INIT: Disabling LED")
-    Process.send_after(self(), state, 2_000)
+    Process.send_after(self(), state, 1_000)
     {:ok, state}
   end
 
-  def handle_info(:off, _state) do
-    Logger.info("In handle_call off: Disabling LED")
-    led_off()
-    new_state = :on
-    Process.send_after(self(), new_state, 2_000)
+  def handle_info(_, state) do
+    Logger.info("In handle_info: #{state}")
+    new_state = transform_state(state)
+    new_state |> led_light
+    Process.send_after(self(), new_state, 1_000)
     {:noreply, new_state}
   end
 
-  def handle_info(:on, _state) do
-    Logger.info("In handle_call on: Enabling LED")
-    led_on()
-    new_state = :off
-    Process.send_after(self(), new_state, 2_000)
-    {:noreply, new_state}
-  end
-
-  defp led_on do
+  defp led_light(:on) do
     Logger.info("Enabling LED")
     Leds.set(green: true)
   end
 
-  defp led_off do
+  defp led_light(:off) do
     Logger.info("Disabling LED")
     Leds.set(green: false)
+  end
+
+  defp transform_state(state) do
+    output = if (state == :off), do: :on, else: :off
+
+    output
   end
 end
