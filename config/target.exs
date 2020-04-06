@@ -83,7 +83,8 @@ config :mdns_lite,
     }
   ]
 
-  config :nerves_leds, names: [green: "led0"]  # Configuring raspberry pi4 led
+# Configuring raspberry pi4 led
+config :nerves_leds, names: [green: "led0"]
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
